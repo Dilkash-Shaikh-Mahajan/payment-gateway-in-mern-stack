@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 const Products = () => {
 	const [product, setProduct] = useState([]);
+	let backURL = 'https://dilkash-razorpay-backend.onrender.com';
 	const getProducts = () => {
 		axios.get('https://fakestoreapi.com/products')
 			.then((res) => setProduct(res.data))
@@ -12,10 +13,9 @@ const Products = () => {
 		getProducts();
 	}, []);
 	const handlePayment = async (price) => {
-		const { data } = await axios.post(
-			'http://localhost:5000/api/create-order',
-			{ price },
-		);
+		const { data } = await axios.post(`${backURL}/api/create-order`, {
+			price,
+		});
 		const { amount, id } = data;
 		const options = {
 			key: 'rzp_test_DXb4qOZFFJhsDu',
@@ -27,7 +27,7 @@ const Products = () => {
 			order_id: id,
 			handler: async function (response) {
 				let { data } = await axios.post(
-					'http://localhost:5000/api/paymentSuccess',
+					`${backURL}/api/paymentSuccess`,
 					{
 						razorpay_order_id:
 							response.razorpay_order_id,
