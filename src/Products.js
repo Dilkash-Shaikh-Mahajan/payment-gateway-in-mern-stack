@@ -4,8 +4,9 @@ import toast, { Toaster } from 'react-hot-toast';
 const Products = () => {
 	const [product, setProduct] = useState([]);
 	let backURL = 'https://dilkash-razorpay-backend.onrender.com';
+	let backTestURL = 'http://localhost:5000';
 	const getProducts = () => {
-		axios.get('https://fakestoreapi.com/products')
+		axios.get(`${backURL}/api/products`)
 			.then((res) => setProduct(res.data))
 			.catch((err) => console.error(err));
 	};
